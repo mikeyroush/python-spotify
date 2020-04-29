@@ -1,5 +1,6 @@
-#Spotify API key
+#API keys
 Secrets.py
+*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
