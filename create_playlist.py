@@ -56,26 +56,26 @@ class CreatePlaylist:
             myRating="like")
         # send request
         response = request.execute()
-
-	# parse through list
+        
+        # parse through list
         print("Found videos:")
         for item in response["items"]:
             video_title = item["snippet"]["title"]
             youtube_url = f'https://www.youtube.com/watch?v={item["id"]}'
             #print(f'{video_title}: {youtube_url}')
-
-	    # use youtube_dl to extract info from video
+            
+            # use youtube_dl to extract info from video
             video = youtube_dl.YoutubeDL({}).extract_info(youtube_url, download=False)
             song_name = video["track"]
             artist = video["artist"]
             #print(f'{song_name}: {artist}')
-
-	    # save all important info if it exists
+            
+            # save all important info if it exists
             try:
                 print(self.get_song_id(song_name,artist))
                 self.song_uris.append(self.get_song_id(song_name, artist))
             except:
-                print("no song data")
+            	self.song_uris.append(self.get_song_id(video_title, ""))
         print("analyzed all songs")
         print(self.song_uris)
 
