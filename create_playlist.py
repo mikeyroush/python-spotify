@@ -61,7 +61,7 @@ class CreatePlaylist:
         print("Found videos:")
         for item in response["items"]:
             video_title = item["snippet"]["title"]
-            youtube_url = f'https://www.youtube.com/watch?v={item["id"]}'
+            youtube_url = "https://www.youtube.com/watch?v={}".format({item["id"]})
             #print(f'{video_title}: {youtube_url}')
             
             # use youtube_dl to extract info from video
@@ -114,7 +114,7 @@ class CreatePlaylist:
         results = ""
         if self.token:
             sp = spotipy.Spotify(auth=self.token)
-            query = f'{track} {artist}'
+            query = "{} {}".format(track, artist)
             results = sp.track(q = query,
                     limit = 10,
                     offset = 0,
