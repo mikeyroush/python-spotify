@@ -61,10 +61,20 @@ class CreatePlaylist:
         print("Found videos:")
         for item in response["items"]:
             video_title = item["snippet"]["title"]
+<<<<<<< HEAD
             youtube_url = "https://www.youtube.com/watch?v={}".format({item["id"]})
             #print(f'{video_title}: {youtube_url}')
             
             # use youtube_dl to extract info from video
+=======
+            bad_chars = "`~,./?-_+=*"
+            for i in bad_chars:
+                video_title = video_title.replace(i,'')
+            youtube_url = f'https://www.youtube.com/watch?v={item["id"]}'
+            print(f'{video_title}: {youtube_url}')
+
+	    # use youtube_dl to extract info from video
+>>>>>>> old-state
             video = youtube_dl.YoutubeDL({}).extract_info(youtube_url, download=False)
             song_name = video["track"]
             artist = video["artist"]
@@ -72,10 +82,14 @@ class CreatePlaylist:
             
             # save all important info if it exists
             try:
-                print(self.get_song_id(song_name,artist))
+                #print(self.get_song_id(song_name,artist))
                 self.song_uris.append(self.get_song_id(song_name, artist))
             except:
+<<<<<<< HEAD
             	self.song_uris.append(self.get_song_id(video_title, ""))
+=======
+            	self.song_uris.append(self.get_song_id(video_title,""))
+>>>>>>> old-state
         print("analyzed all songs")
         print(self.song_uris)
 
@@ -103,7 +117,7 @@ class CreatePlaylist:
             print("created playlist")
             sp.trace = False
             try:
-                results = sp.user_playlist_add_tracks(self.spotify_username, playlist, self.song_uris)
+                results = sp.user_playlist_add_tracks(self.spotify_username, playlist["id"], self.song_uris)
                 print(results)
             except:
                 print("error: couldn't add songs")
@@ -114,15 +128,20 @@ class CreatePlaylist:
         results = ""
         if self.token:
             sp = spotipy.Spotify(auth=self.token)
+<<<<<<< HEAD
             query = "{} {}".format(track, artist)
             results = sp.track(q = query,
+=======
+            query = f'{track} {artist}'
+            print("query: " + query)
+            results = sp.search(q = query,
+>>>>>>> old-state
                     limit = 10,
                     offset = 0,
                     type = "track",
                     market = "US")
-        print("results: " + results["tracks"]["items"][0]["id"])
-        return results["tracks"]["items"][0]["id"]
+        print("results: " + results["tracks"]["items"][0]["uri"])
+        return results["tracks"]["items"][0]["uri"]
 
 playlist = CreatePlaylist()
 playlist.create_playlist()
-#playlist.get_songs()
