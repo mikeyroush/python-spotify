@@ -79,6 +79,9 @@ class CreatePlaylist:
                 self.song_uris.append(self.get_song_id(song_name, artist))
             except:
             	self.song_uris.append(self.get_song_id(video_title, ""))
+        for song in self.song_uris:
+            if song == None:
+                self.song_uris.remove(song)
         print("analyzed all songs")
         print(self.song_uris)
 
@@ -124,8 +127,11 @@ class CreatePlaylist:
                     offset = 0,
                     type = "track",
                     market = "US")
-        print("results: " + results["tracks"]["items"][0]["uri"])
-        return results["tracks"]["items"][0]["uri"]
+        try:
+            print("results: " + results["tracks"]["items"][0]["uri"])
+            return results["tracks"]["items"][0]["uri"]
+        except:
+            pass
 
 playlist = CreatePlaylist()
 playlist.create_playlist()
